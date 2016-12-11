@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用select2示例</title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="libs/select2/css/select2.css"/>
+    <link rel="stylesheet" href="libs/select2/css/select2-bootstrap.css"/>
+</head>
+<body ng-controller="indexCtrl" ng-cloak>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="page-header">
+                <h1 class="text-center">select2 directive</h1>
+            </div>
+            <h4>1. 支持动态ng-model</h4>
+            <span class="text-muted">ng-model:</span> {{ a }}
+            <br/>
+            <span class="text-muted">select2-model:</span> {{ aS2 | json }}
+            <input select2 ng-model="a" select2-model="aS2" config="config1" class="form-control" type="text"/>
+            <br/>
+            <button ng-click="aS2 = {id:4,text:'wontfix'}" class="btn btn-success btn-sm pull-right">设置数据</button>
+            <span class="clearfix"></span>
+            <hr/>
+
+            <h4>普通下拉框 （select）</h4>
+            <span class="text-muted">ng-model:</span> {{ select1 }}
+            <br/>
+            <select ng-model="select1" class="form-control select2" select2="selectConfig1"></select>
+            <br/>
+            <button ng-click="select1 = 3" class="btn btn-success btn-sm pull-right">设置数据</button>
+            <span class="clearfix"></span>
+            <hr/>
+            <h4>多选标签式下拉框 （select）</h4>
+            <span class="text-muted">ng-model:</span> {{ select2 }}
+            <br/>
+            <select ng-model="select2" class="form-control select2" select2="selectConfig2"></select>
+            <br/>
+            <button ng-click="select2 = 3" class="btn btn-success btn-sm pull-right">设置数据</button>
+            <span class="clearfix"></span>
+            <hr/>
+
+            <h4>3. 支持自定义配置及多选（与select2原生的配置方式一致）</h4>
+            <span class="text-muted">ng-model:</span> {{ c }}
+            <br/>
+            <span class="text-muted">select2-model:</span> {{ cS2 | json }}
+            <input select2 ng-model="c" select2-model="cS2" config="config3" multiple placeholder="支持多选哦" class="form-control" type="text"/>
+            <br/>
+            <button ng-click="cS2 = [{id:3,text:'invalid'},{id:4,text:'wontfix'}]" class="btn btn-success btn-sm pull-right">设置数据</button>
+            <span class="clearfix"></span>
+            <hr/>
+
+            <h4>4. 支持ajax</h4>
+            <span class="text-muted">ng-model:</span> {{ d }}
+            <br/>
+            <span class="text-muted">select2-model:</span> {{ dS2 | json }}
+            <select  ng-model="d" select2-model="dS2" class="form-control select2" type="text" select2='{"wkeCod": "xx"}'>
+                <option value="100" selected="selected">默认项</option>
+            </select>
+            <br/>
+            <button ng-click="dS2 = {id: '462983441', title: 'Ocean Thirteen'}" class="btn btn-success btn-sm pull-right">设置数据</button>
+            <span class="clearfix"></span>
+        </div>
+    </div>
+</div>
+<select id="select2_sample" name="sample" style="width:75%" >
+    <option value="100" selected="selected">默认项</option>
+</select>
+<script src="libs/jquery/jquery.js"></script>
+<script src="libs/angular/angular.js"></script>
+<script src="libs/select2/js/select2.js"></script>
+<script src="libs/pinyin.js"></script>
+<script src="app.js"></script>
+
+</body>
+
+<script>
+    $(document).ready(function(){
+
+        $("#select2_sample").select2({
+            ajax: {
+
+                url     : "http://123.57.28.146:8088/sample",//请求的API地址
+                dataType: 'json',//数据类型
+                data    : function(params){
+
+                    return {
+                        q   : params.term//此处是最终传递给API的参数
+                    }
+                },
+                results : function(data){ return data;}//返回的结果
+
+            }
+        });//启动select2
+
+    });
+</script>
+</body>
+</html>
